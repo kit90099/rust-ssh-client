@@ -1,0 +1,220 @@
+/* ── File Manager (Sidebar Tree View) ──────────────────────────── */
+
+.file-tree {
+    font-size: 12px;
+}
+
+.file-tree.drag-over {
+    background: var(--accent-dim);
+    border: 2px dashed var(--accent);
+    border-radius: var(--radius-md);
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    user-select: none;
+    position: relative;
+}
+
+.file-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.file-item.selected {
+    background: var(--accent-dim);
+}
+
+.file-item .file-icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-icon.folder {
+    color: #ffc107;
+}
+
+.file-icon.file {
+    color: var(--text-muted);
+}
+
+.file-icon.file-code {
+    color: #7c4dff;
+}
+
+.file-icon.file-image {
+    color: #e91e63;
+}
+
+.file-icon.file-text {
+    color: #4fc3f7;
+}
+
+.file-icon.file-archive {
+    color: #ff9800;
+}
+
+.file-item .file-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
+}
+
+.file-item .file-size {
+    font-size: 10px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+/* ── Drop Zone Overlay ────────────────────────────────────────── */
+
+.drop-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 229, 255, 0.08);
+    border: 2px dashed var(--accent);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+    animation: fadeIn 0.15s ease;
+}
+
+.drop-overlay span {
+    background: var(--bg-tertiary);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 12px;
+}
+
+/* ── Loading State ────────────────────────────────────────────── */
+
+.file-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Permissions Grid ────────────────────────────────────────── */
+
+.perm-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 1fr;
+    gap: 8px 12px;
+    align-items: center;
+}
+
+.perm-header {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.perm-label {
+    font-size: 12px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.perm-check {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+.context-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+}
+
+/* ── File Permissions Display ───────────────────────────────── */
+
+.file-perms {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+
+/* ── Sync Toast ─────────────────────────────────────────────── */
+
+.sync-toast {
+    position: fixed;
+    bottom: 40px;
+    right: 16px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--text-primary);
+    z-index: 9999;
+    animation: slideUp 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.sync-toast.success {
+    border-color: #4caf50;
+}
+
+.sync-toast.error {
+    border-color: var(--danger);
+}
+
+.sync-toast.watching {
+    border-color: var(--accent);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

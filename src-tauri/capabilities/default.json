@@ -1,0 +1,22 @@
+{
+    "$schema": "../gen/schemas/desktop-schema.json",
+    "identifier": "default",
+    "description": "Capability for the main window",
+    "windows": [
+        "main"
+    ],
+    "permissions": [
+        "core:default",
+        "core:event:default",
+        "core:webview:default",
+        "core:webview:allow-webview-close",
+        "core:webview:allow-webview-position",
+        "core:webview:allow-webview-size",
+        "core:window:default",
+        "core:window:allow-set-size",
+        "dialog:default",
+        "dialog:allow-open",
+        "dialog:allow-save",
+        "shell:default"
+    ]
+}
