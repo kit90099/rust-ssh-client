@@ -25,6 +25,15 @@ class App {
     }
 
     async init() {
+        // Platform detection for CSS styling
+        try {
+            const { platform } = await import('@tauri-apps/plugin-os');
+            const currentPlatform = await platform();
+            document.body.classList.add(`platform-${currentPlatform}`);
+        } catch (e) {
+            console.error('Failed to detect platform:', e);
+        }
+
         this.bindToolbar();
         this.bindSidebarTabs();
         this.bindModalEvents();
@@ -464,8 +473,14 @@ class App {
             return customPath || null;
         }
 
-        // Map presets to common paths
-        const editorPaths = {
+        // Map presets to common paths based on platform
+        const isMac = document.body.classList.contains('platform-macos');
+
+        const editorPaths = isMac ? {
+            'vscode': 'code',
+            'sublime': 'subl',
+            'textedit': 'open -e'
+        } : {
             'vscode': 'code',
             'notepad++': 'C:\\Program Files\\Notepad++\\notepad++.exe',
             'sublime': 'C:\\Program Files\\Sublime Text\\sublime_text.exe',
@@ -473,7 +488,7 @@ class App {
             'notepad': 'notepad.exe'
         };
 
-        return editorPaths[preset] || null;
+        return editorPaths[preset] || (isMac ? null : editorPaths['notepad']);
     }
 }
 

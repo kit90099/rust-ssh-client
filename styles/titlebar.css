@@ -82,3 +82,79 @@
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+/* ── macOS Specific Adjustments ────────────────────────────────── */
+
+.platform-macos #titlebar {
+    flex-direction: row-reverse;
+    height: 32px;
+}
+
+.platform-macos .titlebar-drag-region {
+    padding-left: 0;
+    justify-content: center;
+}
+
+.platform-macos .titlebar-title {
+    padding-right: 70px;
+    /* Offset for symmetry since buttons are on the left */
+}
+
+.platform-macos .titlebar-controls {
+    flex-direction: row;
+    padding-left: 10px;
+    gap: 8px;
+    align-items: center;
+}
+
+.platform-macos .titlebar-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.platform-macos .titlebar-button svg {
+    display: none;
+    /* Hide icons by default on macOS like native buttons */
+}
+
+.platform-macos .titlebar-button:hover svg {
+    display: block;
+    /* Show icons on hover */
+    width: 8px;
+    height: 8px;
+    stroke-width: 2;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.platform-macos #titlebar-close {
+    background-color: #ff5f56;
+    border: 0.5px solid #e0443e;
+}
+
+.platform-macos #titlebar-minimize {
+    background-color: #ffbd2e;
+    border: 0.5px solid #dea123;
+}
+
+.platform-macos #titlebar-maximize {
+    background-color: #27c93f;
+    border: 0.5px solid #1aab29;
+}
+
+.platform-macos #titlebar-close:hover {
+    background-color: #ff5f56;
+    color: inherit;
+}
+
+.platform-macos #titlebar-minimize:hover {
+    background-color: #ffbd2e;
+    color: inherit;
+}
+
+.platform-macos #titlebar-maximize:hover {
+    background-color: #27c93f;
+    color: inherit;
+}

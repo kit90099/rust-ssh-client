@@ -37,10 +37,13 @@
     "bundle": {
         "active": true,
         "targets": [
-            "nsis"
+            "nsis",
+            "dmg",
+            "app"
         ],
         "icon": [
-            "icons/icon.ico"
+            "icons/icon.ico",
+            "icons/icon.png"
         ],
         "category": "DeveloperTool",
         "copyright": "Copyright © 2026",

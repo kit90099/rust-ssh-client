@@ -15,6 +15,7 @@
         "dialog:default",
         "shell:default",
         "fs:default",
+        "os:default",
         "app-permissions"
     ]
 }
