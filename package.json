@@ -8,13 +8,14 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@xterm/xterm": "^5.5.0",
-    "@xterm/addon-fit": "^0.10.0",
-    "@xterm/addon-web-links": "^0.11.0",
+    "@openai/codex": "^0.104.0-win32-x64",
     "@tauri-apps/api": ">=2.0.0",
     "@tauri-apps/plugin-dialog": ">=2.0.0",
+    "@tauri-apps/plugin-fs": ">=2.0.0",
     "@tauri-apps/plugin-shell": ">=2.0.0",
-    "@tauri-apps/plugin-fs": ">=2.0.0"
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0",

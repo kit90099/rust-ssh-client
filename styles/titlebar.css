@@ -1,0 +1,84 @@
+/* ── Title Bar ──────────────────────────────────────────────────── */
+
+:root {
+    --titlebar-height: 30px;
+}
+
+#titlebar {
+    height: var(--titlebar-height);
+    background: var(--bg-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    /* Relative so it pushes content down */
+    z-index: 9999;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Adjust app container to account for titlebar */
+#app-container {
+    height: calc(100vh - var(--toolbar-height) - var(--statusbar-height) - var(--titlebar-height)) !important;
+}
+
+.titlebar-drag-region {
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    -webkit-app-region: drag;
+}
+
+.titlebar-title {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Add an icon to the title if needed, or just text */
+
+.titlebar-controls {
+    display: flex;
+    height: 100%;
+    -webkit-app-region: no-drag;
+}
+
+.titlebar-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 46px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    padding: 0;
+}
+
+.titlebar-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.titlebar-button#titlebar-close:hover {
+    background: #c42b1c;
+    color: white;
+}
+
+.titlebar-button svg {
+    width: 10px;
+    height: 10px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}

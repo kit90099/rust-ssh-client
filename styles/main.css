@@ -40,9 +40,9 @@
   /* Sizing */
   --toolbar-height: 48px;
   --statusbar-height: 28px;
-  --sidebar-width: 280px;
-  --sidebar-min-width: 200px;
-  --sidebar-max-width: 450px;
+  --sidebar-width: 500px;
+  --sidebar-min-width: 250px;
+  --sidebar-max-width: 800px;
 
   /* Radius */
   --radius-sm: 4px;
@@ -80,10 +80,25 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 13px;
   color: var(--text-primary);
-  background: var(--bg-primary);
+  background: var(--bg-primary), transparent;
+  /* Changed from transparent to avoid white bleed */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
+  border-radius: 12px;
+}
+
+#window-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+  /* Add 1px border that matches the background to hide OS-level white lines */
+  border: 1px solid var(--bg-primary);
 }
 
 /* ── Toolbar ────────────────────────────────────────────────────── */

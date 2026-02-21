@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/crates/tauri-config-schema/schema.json",
+    "$schema": "https://schema.tauri.app/config/2",
     "productName": "RustSSH",
     "version": "1.0.0",
     "identifier": "com.rustssh.app",
@@ -12,13 +12,17 @@
     "app": {
         "windows": [
             {
+                "label": "main",
                 "title": "RustSSH — SSH Client",
                 "width": 1280,
                 "height": 800,
                 "resizable": true,
                 "fullscreen": false,
-                "minWidth": 800,
-                "minHeight": 600
+                "minHeight": 600,
+                "decorations": false,
+                "transparent": true,
+                "shadow": false,
+                "theme": "Dark"
             }
         ],
         "security": {
@@ -26,7 +30,6 @@
         }
     },
     "plugins": {
-        "dialog": {},
         "shell": {
             "open": true
         }
@@ -34,8 +37,7 @@
     "bundle": {
         "active": true,
         "targets": [
-            "nsis",
-            "dmg"
+            "nsis"
         ],
         "icon": [
             "icons/icon.ico"

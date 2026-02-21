@@ -1,0 +1,22 @@
+[[permission]]
+identifier = "app-permissions"
+description = "Permissions for all custom app commands"
+commands.allow = [
+    "get_connections",
+    "save_connection",
+    "delete_connection",
+    "ssh_connect",
+    "ssh_write",
+    "ssh_resize",
+    "ssh_disconnect",
+    "sftp_list",
+    "sftp_download",
+    "sftp_upload",
+    "sftp_mkdir",
+    "sftp_delete",
+    "sftp_rename",
+    "sftp_get_home",
+    "sftp_chmod",
+    "sftp_edit_file",
+    "sftp_watch_file"
+]

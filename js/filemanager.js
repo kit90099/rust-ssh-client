@@ -106,6 +106,22 @@ export class FileManager {
             this.currentPath = path;
 
             document.getElementById('sftp-path-display').textContent = path;
+
+            const fileList = document.getElementById('file-list');
+            fileList.innerHTML = `
+                <div class="file-list-header">
+                    <span></span>
+                    <span>Name<div class="col-resizer" data-col="1"></div></span>
+                    <span>Owner<div class="col-resizer" data-col="2"></div></span>
+                    <span>Group<div class="col-resizer" data-col="3"></div></span>
+                    <span>Perms<div class="col-resizer" data-col="4"></div></span>
+                    <span>Size<div class="col-resizer" data-col="5"></div></span>
+                    <span>Modified</span>
+                </div>
+                <div class="file-list-content"></div>
+            `;
+
+            this.initColumnResize();
             this.render();
         } catch (e) {
             fileList.innerHTML = `
@@ -119,9 +135,10 @@ export class FileManager {
 
     render() {
         const fileList = document.getElementById('file-list');
+        const content = fileList.querySelector('.file-list-content') || fileList;
 
         if (this.files.length === 0) {
-            fileList.innerHTML = `
+            content.innerHTML = `
         <div class="empty-state">
           <p>Empty directory</p>
         </div>
@@ -129,14 +146,23 @@ export class FileManager {
             return;
         }
 
-        fileList.innerHTML = this.files.map(file => `
-      <div class="file-item" data-path="${this.escapeHtml(file.path)}" data-dir="${file.is_dir}" data-perms="${file.permissions || ''}">
+        content.innerHTML = this.files.map(file => `
+      <div class="file-item" 
+           data-path="${this.escapeHtml(file.path)}" 
+           data-dir="${file.is_dir}" 
+           data-perms="${file.permissions || ''}"
+           data-uid="${file.uid || ''}"
+           data-gid="${file.gid || ''}"
+           data-modified="${file.modified || ''}">
         <div class="file-icon ${file.is_dir ? 'folder' : this.getFileIconClass(file.name)}">
           ${file.is_dir ? this.folderIcon() : this.fileIcon(file.name)}
         </div>
         <span class="file-name">${this.escapeHtml(file.name)}</span>
+        <span class="file-owner">${file.uid ?? '-'}</span>
+        <span class="file-group">${file.gid ?? '-'}</span>
         ${file.permissions != null ? `<span class="file-perms">${this.formatPermissions(file.permissions)}</span>` : ''}
-        ${!file.is_dir ? `<span class="file-size">${this.formatSize(file.size)}</span>` : ''}
+        ${!file.is_dir ? `<span class="file-size">${this.formatSize(file.size)}</span>` : '<span class="file-size">-</span>'}
+        <span class="file-date">${file.modified ? this.formatDate(file.modified) : '-'}</span>
       </div>
     `).join('');
 
@@ -525,6 +551,56 @@ export class FileManager {
     `;
     }
 
+    // ── Column Resize ────────────────────────────────────────
+
+    initColumnResize() {
+        const fileList = document.getElementById('file-list');
+
+        fileList.querySelectorAll('.col-resizer').forEach(resizer => {
+            resizer.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const colIndex = parseInt(resizer.dataset.col);
+                const headerCell = resizer.parentElement;
+                const startWidth = headerCell.getBoundingClientRect().width;
+                const startX = e.clientX;
+
+                // Fix the column to px (in case it was 1fr)
+                fileList.style.setProperty(`--fm-col-${colIndex}`, `${startWidth}px`);
+
+                resizer.classList.add('dragging');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+
+                const minWidths = {
+                    1: 100, // Name
+                    2: 40,  // Owner
+                    3: 40,  // Group
+                    4: 70,  // Perms
+                    5: 50   // Size
+                };
+
+                const onMouseMove = (e) => {
+                    const minWidth = minWidths[colIndex] || 30;
+                    const newWidth = Math.max(minWidth, startWidth + (e.clientX - startX));
+                    fileList.style.setProperty(`--fm-col-${colIndex}`, `${newWidth}px`);
+                };
+
+                const onMouseUp = () => {
+                    resizer.classList.remove('dragging');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                };
+
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+        });
+    }
+
     // ── Helpers ──────────────────────────────────────────────
 
     formatPermissions(mode) {
@@ -562,6 +638,16 @@ export class FileManager {
         const sizes = ['B', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+    }
+
+    formatDate(timestamp) {
+        const date = new Date(timestamp * 1000);
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const mm = String(date.getMinutes()).padStart(2, '0');
+        return `${y}-${m}-${d} ${hh}:${mm}`;
     }
 
     escapeHtml(str) {

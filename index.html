@@ -14,376 +14,475 @@
   <link rel="stylesheet" href="/styles/sidebar.css" />
   <link rel="stylesheet" href="/styles/filemanager.css" />
   <link rel="stylesheet" href="/styles/terminal.css" />
+  <link rel="stylesheet" href="/styles/titlebar.css" />
 </head>
 
 <body>
-  <!-- ── Toolbar ─────────────────────────────────────────────── -->
-  <header id="toolbar">
-    <div class="toolbar-left">
-      <div class="toolbar-brand">
-        <svg class="brand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2">
-          <path d="M4 17l6-6-6-6M12 19h8" />
-        </svg>
-        <span class="brand-text">RustSSH</span>
-      </div>
-    </div>
-    <div class="toolbar-center">
-      <div id="tabs-container" class="tabs-container">
-        <!-- Tabs will be injected here -->
-      </div>
-    </div>
-    <div class="toolbar-right">
-      <button id="btn-connect" class="toolbar-btn primary" title="New Connection">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 5v14M5 12h14" />
-        </svg>
-        <span>New</span>
-      </button>
-      <button id="btn-disconnect" class="toolbar-btn danger" disabled title="Disconnect">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button>
-      <div class="toolbar-divider"></div>
-      <button id="btn-settings" class="toolbar-btn ghost" title="Settings">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="3" />
-          <path
-            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
-      </button>
-    </div>
-  </header>
-
-  <!-- ── Main Layout ─────────────────────────────────────────── -->
-  <div id="app-container">
-    <!-- Sidebar -->
-    <aside id="sidebar">
-      <div class="sidebar-tabs">
-        <button class="sidebar-tab active" data-tab="connections">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path
-              d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+  <div id="window-frame">
+    <!-- ── Title Bar ────────────────────────────────────────────── -->
+    <div id="titlebar">
+      <div class="titlebar-drag-region">
+        <div class="titlebar-title">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14" height="14"
+            style="margin-right: 8px;">
+            <path d="M4 17l6-6-6-6M12 19h8"></path>
           </svg>
-          <span>Connections</span>
-        </button>
-        <button class="sidebar-tab" data-tab="files">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-          </svg>
-          <span>Files</span>
-        </button>
-      </div>
-
-      <!-- Connections Tab Content -->
-      <div class="sidebar-content active" id="tab-connections">
-        <div class="sidebar-section-header">
-          <span>Saved Connections</span>
-          <button id="btn-add-connection" class="icon-btn" title="New Connection">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-          </button>
+          RustSSH
         </div>
-        <div id="connections-list" class="sidebar-list">
-          <div class="empty-state">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-              opacity="0.4">
+      </div>
+      <div class="titlebar-controls">
+        <button class="titlebar-button" id="titlebar-minimize">
+          <svg viewBox="0 0 10 10">
+            <path d="M1 5h8" stroke="currentColor" stroke-width="1" fill="none" />
+          </svg>
+        </button>
+        <button class="titlebar-button" id="titlebar-maximize">
+          <svg viewBox="0 0 10 10">
+            <rect x="1.5" y="1.5" width="7" height="7" stroke="currentColor" stroke-width="1" fill="none" />
+          </svg>
+        </button>
+        <button class="titlebar-button" id="titlebar-close">
+          <svg viewBox="0 0 10 10">
+            <path d="M1 1l8 8m0-8l-8 8" stroke="currentColor" stroke-width="1" fill="none" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Toolbar ─────────────────────────────────────────────── -->
+    <header id="toolbar">
+      <div class="toolbar-left">
+        <div class="toolbar-brand">
+          <svg class="brand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M4 17l6-6-6-6M12 19h8" />
+          </svg>
+          <span class="brand-text">RustSSH</span>
+        </div>
+      </div>
+      <div class="toolbar-center">
+        <div id="tabs-container" class="tabs-container">
+          <!-- Tabs will be injected here -->
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <button id="btn-connect" class="toolbar-btn primary" title="New Connection">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          <span>New</span>
+        </button>
+        <button id="btn-disconnect" class="toolbar-btn danger" disabled title="Disconnect">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+        <div class="toolbar-divider"></div>
+        <button id="btn-settings" class="toolbar-btn ghost" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Main Layout ─────────────────────────────────────────── -->
+    <div id="app-container">
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab active" data-tab="connections">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path
                 d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
             </svg>
-            <p>No connections yet</p>
-            <p class="hint">Click + to add one</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Files Tab Content -->
-      <div class="sidebar-content" id="tab-files">
-        <div class="sidebar-section-header">
-          <span id="sftp-path-display">/</span>
-          <div class="sftp-actions">
-            <button id="btn-sftp-up" class="icon-btn" title="Parent Directory">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="18 15 12 9 6 15" />
-              </svg>
-            </button>
-            <button id="btn-sftp-refresh" class="icon-btn" title="Refresh">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 4 23 10 17 10" />
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-              </svg>
-            </button>
-            <button id="btn-sftp-mkdir" class="icon-btn" title="New Folder">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-                <line x1="12" y1="11" x2="12" y2="17" />
-                <line x1="9" y1="14" x2="15" y2="14" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div id="file-list" class="sidebar-list file-tree" ondragover="event.preventDefault()"
-          ondrop="window.fileManager?.handleDrop(event)">
-          <div class="empty-state">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-              opacity="0.4">
+            <span>Connections</span>
+          </button>
+          <button class="sidebar-tab" data-tab="files">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
             </svg>
-            <p>Not connected</p>
-            <p class="hint">Connect to browse files</p>
-          </div>
+            <span>Files</span>
+          </button>
         </div>
-      </div>
 
-      <!-- Resize Handle -->
-      <div id="sidebar-resize-handle" class="resize-handle"></div>
-    </aside>
-
-    <!-- Terminal Area -->
-    <main id="terminal-area">
-      <div id="terminal-container">
-        <div class="content-view active" id="view-terminal">
-          <div id="terminal-placeholder">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-              style="color: var(--text-secondary); margin-bottom: 24px;">
-              <path d="M4 17l6-6-6-6M12 19h8" />
-            </svg>
-            <div class="placeholder-text">Not Connected</div>
-            <button class="toolbar-btn primary" onclick="document.getElementById('btn-connect').click()">
-              New Connection
+        <!-- Connections Tab Content -->
+        <div class="sidebar-content active" id="tab-connections">
+          <div class="sidebar-section-header">
+            <span>Saved Connections</span>
+            <button id="btn-add-connection" class="icon-btn" title="New Connection">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
             </button>
           </div>
-          <!-- TerminalsContainer: Terminals will be injected here -->
-          <div id="terminals-container" style="display: none; height: 100%; width: 100%;"></div>
+          <div id="connections-list" class="sidebar-list">
+            <div class="empty-state">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                opacity="0.4">
+                <path
+                  d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+              </svg>
+              <p>No connections yet</p>
+              <p class="hint">Click + to add one</p>
+            </div>
+          </div>
         </div>
-    </main>
-  </div>
 
-  <!-- ── Status Bar ──────────────────────────────────────────── -->
-  <footer id="statusbar">
-    <div class="status-left">
-      <span id="status-connection" class="status-item">
-        <span class="status-dot disconnected"></span>
-        <span>Disconnected</span>
-      </span>
-    </div>
-    <div class="status-right">
-      <span id="status-transfer" class="status-item"></span>
-    </div>
-  </footer>
+        <!-- Files Tab Content -->
+        <div class="sidebar-content" id="tab-files">
+          <div class="sidebar-section-header">
+            <span id="sftp-path-display">/</span>
+            <div class="sftp-actions">
+              <button id="btn-sftp-up" class="icon-btn" title="Parent Directory">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="18 15 12 9 6 15" />
+                </svg>
+              </button>
+              <button id="btn-sftp-refresh" class="icon-btn" title="Refresh">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </button>
+              <button id="btn-sftp-mkdir" class="icon-btn" title="New Folder">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                  <line x1="12" y1="11" x2="12" y2="17" />
+                  <line x1="9" y1="14" x2="15" y2="14" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div id="file-list" class="sidebar-list file-tree" ondragover="event.preventDefault()"
+            ondrop="window.fileManager?.handleDrop(event)">
+            <div class="empty-state">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                opacity="0.4">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+              </svg>
+              <p>Not connected</p>
+              <p class="hint">Connect to browse files</p>
+            </div>
+          </div>
+        </div>
 
-  <!-- ── Connection Modal ────────────────────────────────────── -->
-  <div id="connection-modal" class="modal-overlay" style="display:none;">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 id="modal-title">New Connection</h3>
-        <button id="btn-modal-close" class="icon-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
+        <!-- Resize Handle -->
+        <div id="sidebar-resize-handle" class="resize-handle"></div>
+      </aside>
+
+      <!-- Terminal Area -->
+      <main id="terminal-area">
+        <div id="terminal-container">
+          <div class="content-view active" id="view-terminal">
+            <div id="terminal-placeholder">
+              <div class="welcome-container">
+                <div class="welcome-logo">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 17l6-6-6-6M12 19h8" />
+                  </svg>
+                </div>
+                <h1 class="welcome-title">Welcome to RustSSH</h1>
+                <p class="welcome-desc">A blazing fast, native SSH client built with Tauri and Rust. Manage your
+                  servers, view files, and securely connect with an elegant interface.</p>
+
+                <div class="shortcuts-grid">
+                  <div class="shortcut-card">
+                    <div class="shortcut-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </div>
+                    <div class="shortcut-info">
+                      <div class="shortcut-label">New Connection</div>
+                      <div class="shortcut-key">Connect</div>
+                    </div>
+                  </div>
+                  <div class="shortcut-card">
+                    <div class="shortcut-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                      </svg>
+                    </div>
+                    <div class="shortcut-info">
+                      <div class="shortcut-label">File Manager</div>
+                      <div class="shortcut-key">SFTP</div>
+                    </div>
+                  </div>
+                  <div class="shortcut-card">
+                    <div class="shortcut-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                      </svg>
+                    </div>
+                    <div class="shortcut-info">
+                      <div class="shortcut-label">Settings</div>
+                      <div class="shortcut-key">Configure</div>
+                    </div>
+                  </div>
+                  <div class="shortcut-card">
+                    <div class="shortcut-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <line x1="3" y1="9" x2="21" y2="9" />
+                        <line x1="9" y1="21" x2="9" y2="9" />
+                      </svg>
+                    </div>
+                    <div class="shortcut-info">
+                      <div class="shortcut-label">Terminal</div>
+                      <div class="shortcut-key">Session</div>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="welcome-action" onclick="document.getElementById('btn-connect').click()">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" />
+                  </svg>
+                  Connect to Server
+                </button>
+              </div>
+            </div>
+            <!-- TerminalsContainer: Terminals will be injected here -->
+            <div id="terminals-container" style="display: none; height: 100%; width: 100%;"></div>
+          </div>
+      </main>
+    </div>
+
+    <!-- ── Status Bar ──────────────────────────────────────────── -->
+    <footer id="statusbar">
+      <div class="status-left">
+        <span id="status-connection" class="status-item">
+          <span class="status-dot disconnected"></span>
+          <span>Disconnected</span>
+        </span>
       </div>
-      <form id="connection-form" class="modal-body">
-        <input type="hidden" id="conn-id" />
-        <div class="form-group">
-          <label for="conn-name">Connection Name</label>
-          <input type="text" id="conn-name" placeholder="My Server" required />
+      <div class="status-right">
+        <span id="status-transfer" class="status-item"></span>
+      </div>
+    </footer>
+
+    <!-- ── Connection Modal ────────────────────────────────────── -->
+    <div id="connection-modal" class="modal-overlay" style="display:none;">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="modal-title">New Connection</h3>
+          <button id="btn-modal-close" class="icon-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
-        <div class="form-row">
-          <div class="form-group flex-grow">
-            <label for="conn-host">Host</label>
-            <input type="text" id="conn-host" placeholder="192.168.1.100" required />
-          </div>
-          <div class="form-group" style="width:100px;">
-            <label for="conn-port">Port</label>
-            <input type="number" id="conn-port" value="22" min="1" max="65535" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="conn-username">Username</label>
-          <input type="text" id="conn-username" placeholder="root" required />
-        </div>
-        <div class="form-group">
-          <label for="conn-auth-type">Authentication</label>
-          <select id="conn-auth-type">
-            <option value="password">Password</option>
-            <option value="keyfile">Private Key</option>
-          </select>
-        </div>
-        <div id="auth-password-fields">
+        <form id="connection-form" class="modal-body">
+          <input type="hidden" id="conn-id" />
           <div class="form-group">
-            <label for="conn-password">Password</label>
-            <input type="password" id="conn-password" placeholder="••••••••" />
+            <label for="conn-name">Connection Name</label>
+            <input type="text" id="conn-name" placeholder="My Server" required />
           </div>
-        </div>
-        <div id="auth-keyfile-fields" style="display:none;">
-          <div class="form-group">
-            <label for="conn-keypath">Private Key Path</label>
-            <div class="input-with-btn">
-              <input type="text" id="conn-keypath" placeholder="~/.ssh/id_rsa" readonly />
-              <button type="button" id="btn-browse-key" class="toolbar-btn ghost">Browse</button>
+          <div class="form-row">
+            <div class="form-group flex-grow">
+              <label for="conn-host">Host</label>
+              <input type="text" id="conn-host" placeholder="192.168.1.100" required />
+            </div>
+            <div class="form-group" style="width:100px;">
+              <label for="conn-port">Port</label>
+              <input type="number" id="conn-port" value="22" min="1" max="65535" required />
             </div>
           </div>
           <div class="form-group">
-            <label for="conn-passphrase">Passphrase (optional)</label>
-            <input type="password" id="conn-passphrase" placeholder="Key passphrase" />
+            <label for="conn-username">Username</label>
+            <input type="text" id="conn-username" placeholder="root" required />
+          </div>
+          <div class="form-group">
+            <label for="conn-auth-type">Authentication</label>
+            <select id="conn-auth-type">
+              <option value="password">Password</option>
+              <option value="keyfile">Private Key</option>
+            </select>
+          </div>
+          <div id="auth-password-fields">
+            <div class="form-group">
+              <label for="conn-password">Password</label>
+              <input type="password" id="conn-password" placeholder="••••••••" />
+            </div>
+          </div>
+          <div id="auth-keyfile-fields" style="display:none;">
+            <div class="form-group">
+              <label for="conn-keypath">Private Key Path</label>
+              <div class="input-with-btn">
+                <input type="text" id="conn-keypath" placeholder="~/.ssh/id_rsa" readonly />
+                <button type="button" id="btn-browse-key" class="toolbar-btn ghost">Browse</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="conn-passphrase">Passphrase (optional)</label>
+              <input type="password" id="conn-passphrase" placeholder="Key passphrase" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btn-modal-cancel" class="toolbar-btn ghost">Cancel</button>
+            <button type="submit" class="toolbar-btn primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── Context Menu ────────────────────────────────────────── -->
+    <div id="context-menu" class="context-menu" style="display:none;">
+      <button class="context-item" data-action="download">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        Download
+      </button>
+      <button class="context-item" data-action="open-with">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        Open With...
+      </button>
+      <button class="context-item" data-action="rename">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+        </svg>
+        Rename
+      </button>
+      <button class="context-item" data-action="delete">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+        Delete
+      </button>
+      <div class="context-divider"></div>
+      <button class="context-item" data-action="permissions">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+        Permissions
+      </button>
+      <button class="context-item" data-action="edit">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
+        Open in Editor
+      </button>
+    </div>
+
+    <script type="module" src="/js/app.js"></script>
+    <script type="module" src="/js/titlebar.js"></script>
+
+    <!-- ── Settings Modal ────────────────────────────────────── -->
+    <div id="settings-modal" class="modal-overlay" style="display:none;">
+      <div class="modal" style="max-width: 500px;">
+        <div class="modal-header">
+          <h3>Settings</h3>
+          <button id="btn-settings-close" class="icon-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="editor-preset">Preferred Editor</label>
+            <select id="editor-preset">
+              <option value="system">System Default</option>
+              <option value="vscode">Visual Studio Code</option>
+              <option value="notepad++">Notepad++</option>
+              <option value="sublime">Sublime Text</option>
+              <option value="atom">Atom</option>
+              <option value="notepad">Notepad</option>
+              <option value="custom">Custom...</option>
+            </select>
+          </div>
+          <div class="form-group" id="custom-editor-group" style="display:none;">
+            <label for="custom-editor-path">Custom Editor Path</label>
+            <input type="text" id="custom-editor-path" placeholder="C:\Program Files\Editor\editor.exe" />
+            <small style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 4px; display: block;">
+              Full path to the editor executable
+            </small>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="btn-modal-cancel" class="toolbar-btn ghost">Cancel</button>
-          <button type="submit" class="toolbar-btn primary">Save</button>
+          <button type="button" id="btn-settings-cancel" class="toolbar-btn ghost">Cancel</button>
+          <button type="button" id="btn-settings-save" class="toolbar-btn primary">Save</button>
         </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ── Context Menu ────────────────────────────────────────── -->
-  <div id="context-menu" class="context-menu" style="display:none;">
-    <button class="context-item" data-action="download">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="7 10 12 15 17 10" />
-        <line x1="12" y1="15" x2="12" y2="3" />
-      </svg>
-      Download
-    </button>
-    <button class="context-item" data-action="open-with">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-        <polyline points="15 3 21 3 21 9"></polyline>
-        <line x1="10" y1="14" x2="21" y2="3"></line>
-      </svg>
-      Open With...
-    </button>
-    <button class="context-item" data-action="rename">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-      </svg>
-      Rename
-    </button>
-    <button class="context-item" data-action="delete">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="3 6 5 6 21 6" />
-        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-      </svg>
-      Delete
-    </button>
-    <div class="context-divider"></div>
-    <button class="context-item" data-action="permissions">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-      </svg>
-      Permissions
-    </button>
-    <button class="context-item" data-action="edit">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="16" y1="13" x2="8" y2="13" />
-        <line x1="16" y1="17" x2="8" y2="17" />
-      </svg>
-      Open in Editor
-    </button>
-  </div>
-
-  <script type="module" src="/js/app.js"></script>
-
-  <!-- ── Settings Modal ────────────────────────────────────── -->
-  <div id="settings-modal" class="modal-overlay" style="display:none;">
-    <div class="modal" style="max-width: 500px;">
-      <div class="modal-header">
-        <h3>Settings</h3>
-        <button id="btn-settings-close" class="icon-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="editor-preset">Preferred Editor</label>
-          <select id="editor-preset">
-            <option value="system">System Default</option>
-            <option value="vscode">Visual Studio Code</option>
-            <option value="notepad++">Notepad++</option>
-            <option value="sublime">Sublime Text</option>
-            <option value="atom">Atom</option>
-            <option value="notepad">Notepad</option>
-            <option value="custom">Custom...</option>
-          </select>
-        </div>
-        <div class="form-group" id="custom-editor-group" style="display:none;">
-          <label for="custom-editor-path">Custom Editor Path</label>
-          <input type="text" id="custom-editor-path" placeholder="C:\Program Files\Editor\editor.exe" />
-          <small style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 4px; display: block;">
-            Full path to the editor executable
-          </small>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="btn-settings-cancel" class="toolbar-btn ghost">Cancel</button>
-        <button type="button" id="btn-settings-save" class="toolbar-btn primary">Save</button>
       </div>
     </div>
-  </div>
 
-  <!-- ── Permissions Modal ──────────────────────────────────── -->
-  <div id="permissions-modal" class="modal-overlay" style="display:none;">
-    <div class="modal" style="max-width: 420px;">
-      <div class="modal-header">
-        <h3>File Permissions</h3>
-        <button id="btn-perm-close" class="icon-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label id="perm-file-name"
-            style="font-family:var(--font-mono);font-size:0.85rem;color:var(--accent);margin-bottom:12px;display:block;"></label>
+    <!-- ── Permissions Modal ──────────────────────────────────── -->
+    <div id="permissions-modal" class="modal-overlay" style="display:none;">
+      <div class="modal" style="max-width: 420px;">
+        <div class="modal-header">
+          <h3>File Permissions</h3>
+          <button id="btn-perm-close" class="icon-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
-        <div class="perm-grid">
-          <div class="perm-header"></div>
-          <div class="perm-header">Read</div>
-          <div class="perm-header">Write</div>
-          <div class="perm-header">Execute</div>
-          <div class="perm-label">Owner</div>
-          <div><input type="checkbox" id="perm-owner-r" class="perm-check" /></div>
-          <div><input type="checkbox" id="perm-owner-w" class="perm-check" /></div>
-          <div><input type="checkbox" id="perm-owner-x" class="perm-check" /></div>
-          <div class="perm-label">Group</div>
-          <div><input type="checkbox" id="perm-group-r" class="perm-check" /></div>
-          <div><input type="checkbox" id="perm-group-w" class="perm-check" /></div>
-          <div><input type="checkbox" id="perm-group-x" class="perm-check" /></div>
-          <div class="perm-label">Others</div>
-          <div><input type="checkbox" id="perm-other-r" class="perm-check" /></div>
-          <div><input type="checkbox" id="perm-other-w" class="perm-check" /></div>
-          <div><input type="checkbox" id="perm-other-x" class="perm-check" /></div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label id="perm-file-name"
+              style="font-family:var(--font-mono);font-size:0.85rem;color:var(--accent);margin-bottom:12px;display:block;"></label>
+          </div>
+          <div class="perm-grid">
+            <div class="perm-header"></div>
+            <div class="perm-header">Read</div>
+            <div class="perm-header">Write</div>
+            <div class="perm-header">Execute</div>
+            <div class="perm-label">Owner</div>
+            <div><input type="checkbox" id="perm-owner-r" class="perm-check" /></div>
+            <div><input type="checkbox" id="perm-owner-w" class="perm-check" /></div>
+            <div><input type="checkbox" id="perm-owner-x" class="perm-check" /></div>
+            <div class="perm-label">Group</div>
+            <div><input type="checkbox" id="perm-group-r" class="perm-check" /></div>
+            <div><input type="checkbox" id="perm-group-w" class="perm-check" /></div>
+            <div><input type="checkbox" id="perm-group-x" class="perm-check" /></div>
+            <div class="perm-label">Others</div>
+            <div><input type="checkbox" id="perm-other-r" class="perm-check" /></div>
+            <div><input type="checkbox" id="perm-other-w" class="perm-check" /></div>
+            <div><input type="checkbox" id="perm-other-x" class="perm-check" /></div>
+          </div>
+          <div class="form-group" style="margin-top:16px;">
+            <label for="perm-octal">Octal</label>
+            <input type="text" id="perm-octal" maxlength="4" placeholder="755"
+              style="width:80px;font-family:var(--font-mono);" />
+          </div>
+          <div class="perm-preview" id="perm-preview"
+            style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-secondary);margin-top:8px;"></div>
         </div>
-        <div class="form-group" style="margin-top:16px;">
-          <label for="perm-octal">Octal</label>
-          <input type="text" id="perm-octal" maxlength="4" placeholder="755"
-            style="width:80px;font-family:var(--font-mono);" />
+        <div class="modal-footer">
+          <button type="button" id="btn-perm-cancel" class="toolbar-btn ghost">Cancel</button>
+          <button type="button" id="btn-perm-apply" class="toolbar-btn primary">Apply</button>
         </div>
-        <div class="perm-preview" id="perm-preview"
-          style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-secondary);margin-top:8px;"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="btn-perm-cancel" class="toolbar-btn ghost">Cancel</button>
-        <button type="button" id="btn-perm-apply" class="toolbar-btn primary">Apply</button>
       </div>
     </div>
-  </div>
+  </div> <!-- End of #window-frame -->
 </body>
 
 </html>

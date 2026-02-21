@@ -1,0 +1,11 @@
+{
+    "identifier": "connection-commands",
+    "description": "Permissions for connection management commands",
+    "commands": {
+        "allow": [
+            "get_connections",
+            "save_connection",
+            "delete_connection"
+        ]
+    }
+}

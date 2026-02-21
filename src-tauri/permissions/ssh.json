@@ -1,0 +1,12 @@
+{
+    "identifier": "ssh-commands",
+    "description": "Permissions for SSH commands",
+    "commands": {
+        "allow": [
+            "ssh_connect",
+            "ssh_write",
+            "ssh_resize",
+            "ssh_disconnect"
+        ]
+    }
+}

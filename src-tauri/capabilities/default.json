@@ -1,5 +1,5 @@
 {
-    "$schema": "../gen/schemas/desktop-schema.json",
+    "$schema": "https://schema.tauri.app/desktop-capability/2",
     "identifier": "default",
     "description": "Capability for the main window",
     "windows": [
@@ -7,16 +7,14 @@
     ],
     "permissions": [
         "core:default",
-        "core:event:default",
-        "core:webview:default",
-        "core:webview:allow-webview-close",
-        "core:webview:allow-webview-position",
-        "core:webview:allow-webview-size",
-        "core:window:default",
-        "core:window:allow-set-size",
+        "core:window:allow-minimize",
+        "core:window:allow-maximize",
+        "core:window:allow-unmaximize",
+        "core:window:allow-is-maximized",
+        "core:window:allow-close",
         "dialog:default",
-        "dialog:allow-open",
-        "dialog:allow-save",
-        "shell:default"
+        "shell:default",
+        "fs:default",
+        "app-permissions"
     ]
 }

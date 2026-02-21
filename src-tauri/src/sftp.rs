@@ -11,6 +11,8 @@ pub struct FileEntry {
     pub size: u64,
     pub modified: Option<u64>,
     pub permissions: Option<u32>,
+    pub uid: Option<u32>,
+    pub gid: Option<u32>,
 }
 
 /// Open an SFTP session from an existing SSH session
@@ -71,6 +73,8 @@ pub async fn list_dir(sftp: &SftpSession, path: &str) -> Result<Vec<FileEntry>, 
         }).map(|d| d.as_secs());
 
         let permissions = attrs.permissions;
+        let uid = attrs.uid;
+        let gid = attrs.gid;
 
         files.push(FileEntry {
             name,
@@ -79,6 +83,8 @@ pub async fn list_dir(sftp: &SftpSession, path: &str) -> Result<Vec<FileEntry>, 
             size,
             modified,
             permissions,
+            uid,
+            gid,
         });
     }
 

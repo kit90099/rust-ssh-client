@@ -2,6 +2,7 @@
 
 .file-tree {
     font-size: 12px;
+    overflow-x: auto;
 }
 
 .file-tree.drag-over {
@@ -11,7 +12,10 @@
 }
 
 .file-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: var(--fm-col-0, 24px) var(--fm-col-1, minmax(100px, 1fr)) var(--fm-col-2, 50px) var(--fm-col-3, 50px) var(--fm-col-4, 75px) var(--fm-col-5, 60px) var(--fm-col-6, 120px);
+    width: 100%;
+    min-width: min-content;
     align-items: center;
     gap: 8px;
     padding: 5px 10px;
@@ -20,6 +24,7 @@
     transition: background var(--transition-fast);
     user-select: none;
     position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 .file-item:hover {
@@ -74,7 +79,75 @@
 .file-item .file-size {
     font-size: 10px;
     color: var(--text-muted);
-    flex-shrink: 0;
+    text-align: left;
+}
+
+.file-owner,
+.file-group {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: left;
+}
+
+.file-date {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: left;
+}
+
+/* ── File Manager Header ─────────────────────────────────────── */
+
+.file-list-header {
+    display: grid;
+    grid-template-columns: var(--fm-col-0, 24px) var(--fm-col-1, minmax(100px, 1fr)) var(--fm-col-2, 50px) var(--fm-col-3, 50px) var(--fm-col-4, 75px) var(--fm-col-5, 60px) var(--fm-col-6, 120px);
+    width: 100%;
+    min-width: min-content;
+    gap: 8px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.file-list-header span {
+    position: relative;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+/* ── Column Resize Handle ─────────────────────────────────────── */
+
+.col-resizer {
+    position: absolute;
+    right: -4px;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    cursor: col-resize;
+    z-index: 10;
+    user-select: none;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.col-resizer::after {
+    content: '';
+    width: 1px;
+    background: transparent;
+    transition: background 0.15s;
+}
+
+.col-resizer:hover::after,
+.col-resizer.dragging::after {
+    background: var(--accent, #00e5ff);
 }
 
 /* ── Drop Zone Overlay ────────────────────────────────────────── */
