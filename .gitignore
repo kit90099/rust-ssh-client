@@ -238,6 +238,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/node,rust,visualstudiocode,windows,macos
 
 # antigravity
-.agent
-.claude
+.agent/
+.claude/
 implementation_plan.md
