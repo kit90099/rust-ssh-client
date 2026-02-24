@@ -132,16 +132,19 @@
 .platform-macos #titlebar-close {
     background-color: #ff5f56;
     border: 0.5px solid #e0443e;
+    order: 1;
 }
 
 .platform-macos #titlebar-minimize {
     background-color: #ffbd2e;
     border: 0.5px solid #dea123;
+    order: 2;
 }
 
 .platform-macos #titlebar-maximize {
     background-color: #27c93f;
     border: 0.5px solid #1aab29;
+    order: 3;
 }
 
 .platform-macos #titlebar-close:hover {

@@ -277,6 +277,7 @@ class App {
         this.sessions.push(session);
         this.switchSession(sessionId);
         this.updateTabsUI();
+        this.switchToTab('files');
 
         // Enable disconnect button
         const disBtn = document.getElementById('btn-disconnect');
